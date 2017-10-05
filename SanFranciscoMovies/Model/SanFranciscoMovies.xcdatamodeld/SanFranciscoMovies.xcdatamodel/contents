@@ -2,32 +2,45 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13240" systemVersion="" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Actor" representedClassName="Actor" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="firstActorMovies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Movie" inverseName="actor1" inverseEntity="Movie" syncable="YES"/>
+        <relationship name="secondActorMovies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Movie" inverseName="actor2" inverseEntity="Movie" syncable="YES"/>
+        <relationship name="thirdActorMovies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Movie" inverseName="actor3" inverseEntity="Movie" syncable="YES"/>
     </entity>
     <entity name="Director" representedClassName="Director" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Movie" inverseName="director" inverseEntity="Movie" syncable="YES"/>
     </entity>
     <entity name="Location" representedClassName="Location" syncable="YES" codeGenerationType="class">
-        <attribute name="address" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="lat" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
-        <attribute name="long" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Movie" representedClassName="Movie" syncable="YES" codeGenerationType="class">
         <attribute name="distributor" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="funFacts" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="productionCompany" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="releaseYear" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="releaseYear" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="writer" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="actor1" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Actor" syncable="YES"/>
-        <relationship name="actor2" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Actor" syncable="YES"/>
-        <relationship name="actor3" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Actor" syncable="YES"/>
-        <relationship name="director" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Director" syncable="YES"/>
+        <relationship name="actor1" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Actor" inverseName="firstActorMovies" inverseEntity="Actor" syncable="YES"/>
+        <relationship name="actor2" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Actor" inverseName="secondActorMovies" inverseEntity="Actor" syncable="YES"/>
+        <relationship name="actor3" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Actor" inverseName="thirdActorMovies" inverseEntity="Actor" syncable="YES"/>
+        <relationship name="director" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Director" inverseName="movies" inverseEntity="Director" syncable="YES"/>
+        <relationship name="productionCompany" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="movies" inverseEntity="ProductionCompany" syncable="YES"/>
+        <relationship name="writer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Writer" inverseName="movies" inverseEntity="Writer" syncable="YES"/>
     </entity>
-    <fetchRequest name="FetchRequest" entity="Movie" predicateString="title CONTAINS &quot;&quot;"/>
+    <entity name="ProductionCompany" representedClassName="ProductionCompany" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Movie" inverseName="productionCompany" inverseEntity="Movie" syncable="YES"/>
+    </entity>
+    <entity name="Writer" representedClassName="Writer" syncable="YES" codeGenerationType="class">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Movie" inverseName="writer" inverseEntity="Movie" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Movie" positionX="-63" positionY="-18" width="128" height="195"/>
-        <element name="Actor" positionX="-54" positionY="-9" width="128" height="60"/>
-        <element name="Director" positionX="-36" positionY="9" width="128" height="60"/>
-        <element name="Location" positionX="-18" positionY="27" width="128" height="90"/>
+        <element name="Actor" positionX="-54" positionY="-9" width="128" height="105"/>
+        <element name="Director" positionX="-36" positionY="9" width="128" height="75"/>
+        <element name="Location" positionX="-18" positionY="27" width="128" height="60"/>
+        <element name="Movie" positionX="-63" positionY="-18" width="128" height="225"/>
+        <element name="ProductionCompany" positionX="-45" positionY="81" width="128" height="75"/>
+        <element name="Writer" positionX="-36" positionY="90" width="128" height="75"/>
     </elements>
 </model>

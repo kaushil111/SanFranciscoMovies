@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		500B30751F82A56000915EFC /* MoviesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500B30741F82A56000915EFC /* MoviesViewModel.swift */; };
 		50DC128A1F81E47C0057CBCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DC12891F81E47C0057CBCB /* AppDelegate.swift */; };
 		50DC128C1F81E47C0057CBCB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DC128B1F81E47C0057CBCB /* ViewController.swift */; };
 		50DC128F1F81E47C0057CBCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DC128D1F81E47C0057CBCB /* Main.storyboard */; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		500B30741F82A56000915EFC /* MoviesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewModel.swift; sourceTree = "<group>"; };
 		50DC12861F81E47C0057CBCB /* SanFranciscoMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SanFranciscoMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50DC12891F81E47C0057CBCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50DC128B1F81E47C0057CBCB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -62,6 +64,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		500B30731F82A54000915EFC /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				500B30741F82A56000915EFC /* MoviesViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		50DC127D1F81E47B0057CBCB = {
 			isa = PBXGroup;
 			children = (
@@ -87,6 +97,7 @@
 				50DC12B11F81E5350057CBCB /* Model */,
 				50DC12B01F81E5270057CBCB /* View */,
 				50DC12AF1F81E5190057CBCB /* View Controller */,
+				500B30731F82A54000915EFC /* ViewModel */,
 				50DC12B21F81E5680057CBCB /* Media */,
 				50DC12AE1F81E50D0057CBCB /* Web Services */,
 				50DC12981F81E47C0057CBCB /* Info.plist */,
@@ -252,6 +263,7 @@
 				50DC128C1F81E47C0057CBCB /* ViewController.swift in Sources */,
 				50DC128A1F81E47C0057CBCB /* AppDelegate.swift in Sources */,
 				50DC12AD1F81E4E90057CBCB /* MoviesWebService.swift in Sources */,
+				500B30751F82A56000915EFC /* MoviesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
