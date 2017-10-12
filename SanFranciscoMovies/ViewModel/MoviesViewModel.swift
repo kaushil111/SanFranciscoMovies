@@ -52,6 +52,8 @@ class MoviesViewModel {
                 let didAddToCoreData = self.addDataToCoreData(json)
                 
                 onCompletion(didAddToCoreData)
+                
+                return
             }
             
             onCompletion(success)
@@ -67,9 +69,6 @@ class MoviesViewModel {
      
      */
     func addDataToCoreData(_ data: Any) -> Bool {
-        
-//        privateManagedObjectContext = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
-//        privateManagedObjectContext.parent = mainManagedObjectContext
         
         //Check if data is a dictionary
         guard let json = data as? Dictionary<String, Any> else {
@@ -125,21 +124,6 @@ class MoviesViewModel {
             }
             else {
                 return false
-            }
-        }
-        
-        privateManagedObjectContext.perform {
-            do {
-                try self.privateManagedObjectContext.save()
-                self.mainManagedObjectContext.performAndWait {
-                    do {
-                        try self.mainManagedObjectContext.save()
-                    } catch {
-                        fatalError("Failure to save context: \(error)")
-                    }
-                }
-            } catch {
-                fatalError("Failure to save context: \(error)")
             }
         }
         
@@ -234,14 +218,17 @@ class MoviesViewModel {
         
         if let actor1 = data[actor1Index] as? String {
             movie.actor1 = getActorEntity(forName: actor1)
+            movie.actor1?.firstActorMovies?.adding(movie)
         }
         
         if let actor2 = data[actor2Index] as? String {
             movie.actor2 = getActorEntity(forName: actor2)
+            movie.actor2?.secondActorMovies?.adding(movie)
         }
         
         if let actor3 = data[actor3Index] as? String {
             movie.actor3 = getActorEntity(forName: actor3)
+            movie.actor3?.thirdActorMovies?.adding(movie)
         }
         
         if let location = data[locationsIndex] as? String {
@@ -264,6 +251,7 @@ class MoviesViewModel {
             movie.writer = getWriterEntity(forName: writer)
         }
         
+        self.saveContext()
         moviesArray.append(movie)
         
         return true
@@ -284,7 +272,7 @@ class MoviesViewModel {
     
     func addActor(name: String) -> Actor {
         let actor = NSManagedObject(
-            entity: NSEntityDescription.entity(forEntityName: "Actor", in: privateManagedObjectContext)!,
+            entity: Actor.entity(),
             insertInto: privateManagedObjectContext)
              as! Actor
         
@@ -310,7 +298,7 @@ class MoviesViewModel {
     
     func addDirector(name: String) -> Director {
         let director = NSManagedObject(
-            entity: NSEntityDescription.entity(forEntityName: "Director", in: privateManagedObjectContext)!,
+            entity: Director.entity(),
             insertInto: privateManagedObjectContext)
             as! Director
         
@@ -323,8 +311,8 @@ class MoviesViewModel {
         let fetchRequest : NSFetchRequest<NSFetchRequestResult> = ProductionCompany.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name MATCHES[cd] %@",name)
         
-        if let actor = getFirstEntity(fetchRequest: fetchRequest) {
-            return actor as? ProductionCompany
+        if let productionCompany = getFirstEntity(fetchRequest: fetchRequest) {
+            return productionCompany as? ProductionCompany
         }
         else {
             return addProductionCompany(name: name)
@@ -334,7 +322,7 @@ class MoviesViewModel {
     
     func addProductionCompany(name: String) -> ProductionCompany {
         let productionCompany = NSManagedObject(
-            entity: NSEntityDescription.entity(forEntityName: "ProductionCompany", in: privateManagedObjectContext)!,
+            entity: ProductionCompany.entity(),
             insertInto: privateManagedObjectContext)
             as! ProductionCompany
         
@@ -347,8 +335,8 @@ class MoviesViewModel {
         let fetchRequest : NSFetchRequest<NSFetchRequestResult> = Writer.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name MATCHES[cd] %@",name)
         
-        if let actor = getFirstEntity(fetchRequest: fetchRequest) {
-            return actor as? Writer
+        if let writer = getFirstEntity(fetchRequest: fetchRequest) {
+            return writer as? Writer
         }
         else {
             return addWriter(name: name)
@@ -358,7 +346,7 @@ class MoviesViewModel {
     
     func addWriter(name: String) -> Writer {
         let writer = NSManagedObject(
-            entity: NSEntityDescription.entity(forEntityName: "Writer", in: privateManagedObjectContext)!,
+            entity: Writer.entity(),
             insertInto: privateManagedObjectContext)
             as! Writer
         
@@ -371,8 +359,8 @@ class MoviesViewModel {
         let fetchRequest : NSFetchRequest<NSFetchRequestResult> = Location.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "name MATCHES[cd] %@",name)
         
-        if let actor = getFirstEntity(fetchRequest: fetchRequest) {
-            return actor as? Location
+        if let location = getFirstEntity(fetchRequest: fetchRequest) {
+            return location as? Location
         }
         else {
             return addLocation(name: name)
@@ -382,7 +370,7 @@ class MoviesViewModel {
     
     func addLocation(name: String) -> Location {
         let location = NSManagedObject(
-            entity: NSEntityDescription.entity(forEntityName: "Location", in: privateManagedObjectContext)!,
+            entity: Location.entity(),
             insertInto: privateManagedObjectContext)
             as! Location
         
@@ -399,10 +387,27 @@ class MoviesViewModel {
                 return entity as? NSManagedObject
             }
         }
-        catch {
-            print(error)
+        catch let error as NSError{
+            print("Error: \(error)")
         }
         return nil
 
+    }
+    
+    func saveContext() {
+        privateManagedObjectContext.performAndWait {
+            do {
+                try self.privateManagedObjectContext.save()
+                self.mainManagedObjectContext.performAndWait {
+                    do {
+                        try self.mainManagedObjectContext.save()
+                    } catch let error as NSError {
+                        fatalError("Failure to save context: \(error)")
+                    }
+                }
+            } catch let error as NSError{
+                fatalError("Failure to save context: \(error)")
+            }
+        }
     }
 }
