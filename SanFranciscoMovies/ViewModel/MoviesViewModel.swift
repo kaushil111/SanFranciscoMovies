@@ -10,7 +10,6 @@ import UIKit
 import CoreData
 
 class MoviesViewModel {
-    var moviesArray = Array<Movie>()
     let mainManagedObjectContext: NSManagedObjectContext
     var privateManagedObjectContext: NSManagedObjectContext
     let moviesWebService = MoviesWebService()
@@ -119,10 +118,7 @@ class MoviesViewModel {
         
         //Map the meta keys to values and add to core data
         for movie in jsonData {
-            if addMovieToCoreData(columns: columnNames, data: movie) {
-                continue
-            }
-            else {
+            if !addMovieToCoreData(columns: columnNames, data: movie) {
                 return false
             }
         }
@@ -203,58 +199,72 @@ class MoviesViewModel {
             return false
         }
         
-        
-        let movie =
-        NSManagedObject(
-            entity: NSEntityDescription.entity(forEntityName: "Movie", in: privateManagedObjectContext)!,
-        insertInto: privateManagedObjectContext)
-            as! Movie
-        
-        movie.id = id
-        movie.productionCompany = getProductionCompanyEntity(forName: productionCompany)
-        movie.releaseYear = releaseYear
-        movie.title = title
-        
-        
-        if let actor1 = data[actor1Index] as? String {
-            movie.actor1 = getActorEntity(forName: actor1)
-            movie.actor1?.firstActorMovies?.adding(movie)
-        }
-        
-        if let actor2 = data[actor2Index] as? String {
-            movie.actor2 = getActorEntity(forName: actor2)
-            movie.actor2?.secondActorMovies?.adding(movie)
-        }
-        
-        if let actor3 = data[actor3Index] as? String {
-            movie.actor3 = getActorEntity(forName: actor3)
-            movie.actor3?.thirdActorMovies?.adding(movie)
-        }
-        
-        if let location = data[locationsIndex] as? String {
-//            movie.location = getLocationEntity(forName: location)
-            movie.location = location
-        }
-        
-        if let funFactsIndex = columns.index(of: "fun_facts") {
-            if let funFacts = data[funFactsIndex] as? String {
-                movie.funFacts = funFacts
+        if let movie = getMovieEntity(forTitle: title)  {
+            if let location = data[locationsIndex] as? String {
+                movie.location?.adding(getLocationEntity(forName: location)!)
+//              movie.location = location
             }
         }
-        
-        if let director = data[directorIndex] as? String {
-            movie.director = getDirectorEntity(forName: director)
+        else {
+            let movie =
+                NSManagedObject(
+                    entity: NSEntityDescription.entity(forEntityName: "Movie", in: privateManagedObjectContext)!,
+                    insertInto: privateManagedObjectContext)
+                    as! Movie
+            
+            movie.id = id
+            movie.productionCompany = getProductionCompanyEntity(forName: productionCompany)
+            movie.releaseYear = releaseYear
+            movie.title = title
+            
+            
+            if let actor1 = data[actor1Index] as? String {
+                movie.actor1 = getActorEntity(forName: actor1)
+            }
+            
+            if let actor2 = data[actor2Index] as? String {
+                movie.actor2 = getActorEntity(forName: actor2)
+            }
+            
+            if let actor3 = data[actor3Index] as? String {
+                movie.actor3 = getActorEntity(forName: actor3)
+            }
+            
+            if let location = data[locationsIndex] as? String {
+                movie.location?.adding(getLocationEntity(forName: location)!)
+                //            movie.location = location
+            }
+            
+            if let funFactsIndex = columns.index(of: "fun_facts") {
+                if let funFacts = data[funFactsIndex] as? String {
+                    movie.funFacts = funFacts
+                }
+            }
+            
+            if let director = data[directorIndex] as? String {
+                movie.director = getDirectorEntity(forName: director)
+            }
+            
+            
+            if let writer = data[writerIndex] as? String {
+                movie.writer = getWriterEntity(forName: writer)
+            }
+            
         }
         
         
-        if let writer = data[writerIndex] as? String {
-            movie.writer = getWriterEntity(forName: writer)
-        }
         
         self.saveContext()
-        moviesArray.append(movie)
         
         return true
+    }
+    
+    func getMovieEntity(forTitle title: String) -> Movie? {
+        let fetchRequest : NSFetchRequest<NSFetchRequestResult> = Movie.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "title MATCHES[cd] %@",title)
+    
+        return getFirstEntity(fetchRequest: fetchRequest) as? Movie
+        
     }
     
     func getActorEntity(forName name: String) -> Actor? {
@@ -410,4 +420,5 @@ class MoviesViewModel {
             }
         }
     }
+    
 }

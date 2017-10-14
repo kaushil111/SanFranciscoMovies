@@ -12,18 +12,19 @@
     </entity>
     <entity name="Location" representedClassName="Location" syncable="YES" codeGenerationType="class">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="movies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Movie" inverseName="location" inverseEntity="Movie" syncable="YES"/>
     </entity>
     <entity name="Movie" representedClassName="Movie" syncable="YES" codeGenerationType="class">
         <attribute name="distributor" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="funFacts" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="location" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="releaseYear" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="actor1" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Actor" inverseName="firstActorMovies" inverseEntity="Actor" syncable="YES"/>
         <relationship name="actor2" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Actor" inverseName="secondActorMovies" inverseEntity="Actor" syncable="YES"/>
         <relationship name="actor3" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Actor" inverseName="thirdActorMovies" inverseEntity="Actor" syncable="YES"/>
         <relationship name="director" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Director" inverseName="movies" inverseEntity="Director" syncable="YES"/>
+        <relationship name="location" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Location" inverseName="movies" inverseEntity="Location" syncable="YES"/>
         <relationship name="productionCompany" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProductionCompany" inverseName="movies" inverseEntity="ProductionCompany" syncable="YES"/>
         <relationship name="writer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Writer" inverseName="movies" inverseEntity="Writer" syncable="YES"/>
     </entity>
@@ -38,7 +39,7 @@
     <elements>
         <element name="Actor" positionX="-54" positionY="-9" width="128" height="105"/>
         <element name="Director" positionX="-36" positionY="9" width="128" height="75"/>
-        <element name="Location" positionX="-18" positionY="27" width="128" height="60"/>
+        <element name="Location" positionX="-18" positionY="27" width="128" height="75"/>
         <element name="Movie" positionX="-63" positionY="-18" width="128" height="225"/>
         <element name="ProductionCompany" positionX="-45" positionY="81" width="128" height="75"/>
         <element name="Writer" positionX="-36" positionY="90" width="128" height="75"/>
