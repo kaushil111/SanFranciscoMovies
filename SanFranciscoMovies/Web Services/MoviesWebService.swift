@@ -40,6 +40,7 @@ class MoviesWebService {
                 let jsonData = try JSONSerialization.jsonObject(with: responseData, options: .allowFragments)
                 
                 onCompletion(true, jsonData)
+                return
             }
             catch {
                 print("Error in serializing data")

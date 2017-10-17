@@ -8,11 +8,14 @@
 
 import UIKit
 import CoreData
+import MapKit
 
 class MoviesViewModel {
     let mainManagedObjectContext: NSManagedObjectContext
     var privateManagedObjectContext: NSManagedObjectContext
     let moviesWebService = MoviesWebService()
+    
+    let backgroundQueue = DispatchQueue(label: "CoreDataQueue")
     
     /**
      Initializes the MOC to be used by the view model
@@ -48,10 +51,11 @@ class MoviesViewModel {
                     return
                 }
                 
-                let didAddToCoreData = self.addDataToCoreData(json)
-                
-                onCompletion(didAddToCoreData)
-                
+                self.backgroundQueue.async {
+                    
+                    let didAddToCoreData = self.addDataToCoreData(json)
+                    onCompletion(didAddToCoreData)
+                }
                 return
             }
             
@@ -201,8 +205,10 @@ class MoviesViewModel {
         
         if let movie = getMovieEntity(forTitle: title)  {
             if let location = data[locationsIndex] as? String {
-                movie.location?.adding(getLocationEntity(forName: location)!)
-//              movie.location = location
+                if let locationEntity = getLocationEntity(forName: location) {
+                    movie.addToLocation(locationEntity)
+                    
+                }
             }
         }
         else {
@@ -215,8 +221,7 @@ class MoviesViewModel {
             movie.id = id
             movie.productionCompany = getProductionCompanyEntity(forName: productionCompany)
             movie.releaseYear = releaseYear
-            movie.title = title
-            
+            movie.title = title.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!
             
             if let actor1 = data[actor1Index] as? String {
                 movie.actor1 = getActorEntity(forName: actor1)
@@ -231,8 +236,9 @@ class MoviesViewModel {
             }
             
             if let location = data[locationsIndex] as? String {
-                movie.location?.adding(getLocationEntity(forName: location)!)
-                //            movie.location = location
+                if let locationEntity = getLocationEntity(forName: location) {
+                    movie.addToLocation(locationEntity)
+                }
             }
             
             if let funFactsIndex = columns.index(of: "fun_facts") {
@@ -252,16 +258,13 @@ class MoviesViewModel {
             
         }
         
-        
-        
         self.saveContext()
-        
         return true
     }
     
     func getMovieEntity(forTitle title: String) -> Movie? {
         let fetchRequest : NSFetchRequest<NSFetchRequestResult> = Movie.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title MATCHES[cd] %@",title)
+        fetchRequest.predicate = NSPredicate(format: "title MATCHES[cd] %@",title.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!)
     
         return getFirstEntity(fetchRequest: fetchRequest) as? Movie
         
@@ -367,15 +370,15 @@ class MoviesViewModel {
     
     func getLocationEntity(forName name: String) -> Location? {
         let fetchRequest : NSFetchRequest<NSFetchRequestResult> = Location.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "name MATCHES[cd] %@",name)
-        
+        fetchRequest.predicate = NSPredicate(format: "name MATCHES[cd] %@",name.addingPercentEncoding(withAllowedCharacters: .alphanumerics)!)
+
         if let location = getFirstEntity(fetchRequest: fetchRequest) {
             return location as? Location
         }
         else {
             return addLocation(name: name)
         }
-        
+
     }
     
     func addLocation(name: String) -> Location {
@@ -384,8 +387,7 @@ class MoviesViewModel {
             insertInto: privateManagedObjectContext)
             as! Location
         
-        location.name = name
-        
+        location.name = name.addingPercentEncoding(withAllowedCharacters: .alphanumerics)
         return location
     }
     
@@ -420,5 +422,4 @@ class MoviesViewModel {
             }
         }
     }
-    
 }

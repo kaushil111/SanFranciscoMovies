@@ -13,6 +13,7 @@ class MoviesTableViewController: UITableViewController {
 
     let viewModel = MoviesViewModel()
     var fetchedResultsController : NSFetchedResultsController<Movie>!
+    let activityIndicator = ActivityIndicatorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +25,6 @@ class MoviesTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
         
         setFetchResultsController()
-        
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,8 +43,9 @@ class MoviesTableViewController: UITableViewController {
         
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {return}
         let fetchRequest : NSFetchRequest<Movie> = Movie.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "title", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        let sortDescriptorTitle = NSSortDescriptor(key: "title", ascending: true)
+        let sortDescriptorReleaseYear = NSSortDescriptor(key: "releaseYear", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptorTitle, sortDescriptorReleaseYear]
         
          fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
@@ -55,16 +54,43 @@ class MoviesTableViewController: UITableViewController {
         
     }
     
-    func reloadData() {
+    func addActivityIndicator(){
+        
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.view.addSubview(activityIndicator)
+
+        self.view.addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .width, multiplier: 1, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .height, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 1, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1, constant: 0))
+        self.view.addConstraint(NSLayoutConstraint(item: activityIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1, constant: 0))
+        
+        activityIndicator.layoutIfNeeded()
+
+    }
+    
+    @objc func reloadData() {
         do {
             try fetchedResultsController.performFetch()
             
             if fetchedResultsController.fetchedObjects?.count == 0 {
                 
+                addActivityIndicator()
+                
                 viewModel.fetchMoviesFromServer { (success) in
                     if success {
                         print("done")
-                        self.reloadData()
+                        DispatchQueue.main.async {
+                            do {
+                                try self.fetchedResultsController.performFetch()
+                                self.tableView.reloadData()
+                                self.activityIndicator.removeFromSuperview()
+                                
+                            }
+                            catch let error {
+                                print(String(describing: error))
+                            }
+                        }
                     }
                     else {
                         print("failed")
@@ -107,6 +133,14 @@ class MoviesTableViewController: UITableViewController {
     }
     */
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let movie = fetchedResultsController.object(at: indexPath)
+        
+        self.performSegue(withIdentifier: "locationsSegue", sender:movie)
+        }
+    
     /*
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
@@ -134,14 +168,26 @@ class MoviesTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        
+        if segue.identifier == "locationsSegue" {
+            
+            guard let viewController = segue.destination as? LocationsTableViewController else {
+                return
+            }
+            
+            guard let movie = sender as? Movie else { return }
+            
+            viewController.locations = movie.location?.sortedArray(using: [NSSortDescriptor(key: "name", ascending: true)]) as! [Location]
+            viewController.title = movie.title?.removingPercentEncoding
+            
+        }
+        
     }
-    */
 
 }

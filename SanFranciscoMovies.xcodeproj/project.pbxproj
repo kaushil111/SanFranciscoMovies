@@ -11,6 +11,9 @@
 		504F60F81F88211200A29EF0 /* MoviesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F60F71F88211200A29EF0 /* MoviesViewModelTests.swift */; };
 		504F61891F929CD300A29EF0 /* MoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F61881F929CD200A29EF0 /* MoviesTableViewController.swift */; };
 		504F618B1F92AB5000A29EF0 /* MoviesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F618A1F92AB5000A29EF0 /* MoviesTableViewCell.swift */; };
+		504F618E1F95468800A29EF0 /* LocationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F618D1F95468700A29EF0 /* LocationsTableViewController.swift */; };
+		504F61921F9574A300A29EF0 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F61911F9574A300A29EF0 /* ActivityIndicatorView.swift */; };
+		504F61951F9574C400A29EF0 /* ActivityIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F61941F9574C400A29EF0 /* ActivityIndicatorView.xib */; };
 		50DC128A1F81E47C0057CBCB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50DC12891F81E47C0057CBCB /* AppDelegate.swift */; };
 		50DC128F1F81E47C0057CBCB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50DC128D1F81E47C0057CBCB /* Main.storyboard */; };
 		50DC12921F81E47C0057CBCB /* SanFranciscoMovies.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 50DC12901F81E47C0057CBCB /* SanFranciscoMovies.xcdatamodeld */; };
@@ -36,6 +39,9 @@
 		504F60F71F88211200A29EF0 /* MoviesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesViewModelTests.swift; sourceTree = "<group>"; };
 		504F61881F929CD200A29EF0 /* MoviesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesTableViewController.swift; sourceTree = "<group>"; };
 		504F618A1F92AB5000A29EF0 /* MoviesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesTableViewCell.swift; sourceTree = "<group>"; };
+		504F618D1F95468700A29EF0 /* LocationsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsTableViewController.swift; sourceTree = "<group>"; };
+		504F61911F9574A300A29EF0 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
+		504F61941F9574C400A29EF0 /* ActivityIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ActivityIndicatorView.xib; sourceTree = "<group>"; };
 		50DC12861F81E47C0057CBCB /* SanFranciscoMovies.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SanFranciscoMovies.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50DC12891F81E47C0057CBCB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50DC128E1F81E47C0057CBCB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -82,6 +88,15 @@
 				504F618A1F92AB5000A29EF0 /* MoviesTableViewCell.swift */,
 			);
 			path = "Table View Cells";
+			sourceTree = "<group>";
+		};
+		504F61931F9574AE00A29EF0 /* ActivityIndicator */ = {
+			isa = PBXGroup;
+			children = (
+				504F61911F9574A300A29EF0 /* ActivityIndicatorView.swift */,
+				504F61941F9574C400A29EF0 /* ActivityIndicatorView.xib */,
+			);
+			path = ActivityIndicator;
 			sourceTree = "<group>";
 		};
 		50DC127D1F81E47B0057CBCB = {
@@ -140,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				504F61881F929CD200A29EF0 /* MoviesTableViewController.swift */,
+				504F618D1F95468700A29EF0 /* LocationsTableViewController.swift */,
 			);
 			path = "View Controller";
 			sourceTree = "<group>";
@@ -150,6 +166,7 @@
 				50DC128D1F81E47C0057CBCB /* Main.storyboard */,
 				50DC12951F81E47C0057CBCB /* LaunchScreen.storyboard */,
 				504F618C1F92AB5700A29EF0 /* Table View Cells */,
+				504F61931F9574AE00A29EF0 /* ActivityIndicator */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -256,6 +273,7 @@
 				50DC12971F81E47C0057CBCB /* LaunchScreen.storyboard in Resources */,
 				50DC12941F81E47C0057CBCB /* Assets.xcassets in Resources */,
 				50DC128F1F81E47C0057CBCB /* Main.storyboard in Resources */,
+				504F61951F9574C400A29EF0 /* ActivityIndicatorView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,9 +294,11 @@
 				504F618B1F92AB5000A29EF0 /* MoviesTableViewCell.swift in Sources */,
 				504F61891F929CD300A29EF0 /* MoviesTableViewController.swift in Sources */,
 				50DC12921F81E47C0057CBCB /* SanFranciscoMovies.xcdatamodeld in Sources */,
+				504F61921F9574A300A29EF0 /* ActivityIndicatorView.swift in Sources */,
 				50DC128A1F81E47C0057CBCB /* AppDelegate.swift in Sources */,
 				50DC12AD1F81E4E90057CBCB /* MoviesWebService.swift in Sources */,
 				500B30751F82A56000915EFC /* MoviesViewModel.swift in Sources */,
+				504F618E1F95468800A29EF0 /* LocationsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

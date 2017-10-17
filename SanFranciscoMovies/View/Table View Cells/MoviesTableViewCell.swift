@@ -45,7 +45,7 @@ class MoviesTableViewCell: UITableViewCell {
     
     func populate(withMovie movie: Movie) {
         
-        titleLabel.text = movie.title ?? ""
+        titleLabel.text = movie.title?.removingPercentEncoding ?? ""
         
         actor1Label.text = movie.actor1?.name ?? ""
         actor2Label.text = movie.actor2?.name ?? ""

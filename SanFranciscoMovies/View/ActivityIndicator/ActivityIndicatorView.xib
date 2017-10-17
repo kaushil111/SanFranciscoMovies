@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="AvenirNext.ttc">
+            <string>AvenirNext-DemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ActivityIndicatorView" customModule="SanFranciscoMovies" customModuleProvider="target">
+            <connections>
+                <outlet property="activityIndicator" destination="Hzv-7x-wGN" id="wok-zq-dVJ"/>
+                <outlet property="indicatorLabel" destination="u5O-d5-hYn" id="dMh-Mr-qJ8"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Es-sy-G3T">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="FJK-Pe-lBq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Hzv-7x-wGN">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                                <color key="color" red="0.0" green="0.46274509803921571" blue="0.44705882352941173" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please wait while we fetch data" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u5O-d5-hYn">
+                                <rect key="frame" x="68.5" y="360" width="238" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="238" id="Ehq-e1-Rx6"/>
+                                    <constraint firstAttribute="height" constant="21" id="ioT-ip-XQS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="14"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Hzv-7x-wGN" firstAttribute="centerX" secondItem="FJK-Pe-lBq" secondAttribute="centerX" id="45i-HD-bNt"/>
+                            <constraint firstItem="u5O-d5-hYn" firstAttribute="top" secondItem="Hzv-7x-wGN" secondAttribute="bottom" constant="8" id="AMn-JT-lUU"/>
+                            <constraint firstItem="Hzv-7x-wGN" firstAttribute="centerY" secondItem="FJK-Pe-lBq" secondAttribute="centerY" id="avS-d2-XWf"/>
+                            <constraint firstItem="u5O-d5-hYn" firstAttribute="centerX" secondItem="FJK-Pe-lBq" secondAttribute="centerX" id="e0h-IM-JTK"/>
+                        </constraints>
+                    </view>
+                    <blurEffect style="light"/>
+                </visualEffectView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="7Es-sy-G3T" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="7dm-Ek-5rd"/>
+                <constraint firstItem="7Es-sy-G3T" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="Jgk-lz-nXy"/>
+                <constraint firstItem="7Es-sy-G3T" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="afO-yk-GGs"/>
+                <constraint firstItem="7Es-sy-G3T" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="qpj-GE-Ki4"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+        </view>
+    </objects>
+</document>
